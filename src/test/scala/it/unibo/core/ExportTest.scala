@@ -3,10 +3,10 @@ package it.unibo.core
 import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-
+import util.{*, given}
 class ExportTest extends AnyFlatSpec with Matchers {
   val root = Path()
-  val exchangePath = Path(Slot.Exchange(0) :: Nil)
+  val exchangePath = Path(Slot(0, 0) :: Nil)
   "An export" should "be empty" in {
     val exportData = Export()
     exportData.paths.isEmpty shouldBe true
@@ -22,6 +22,6 @@ class ExportTest extends AnyFlatSpec with Matchers {
   it should "have as root the Path with empty slots" in {
     val exportData = Export()
     exportData.put(Path(), 10)
-    exportData.root() shouldBe 10
+    exportData.root() shouldBe RawLocal(10)
   }
 }
