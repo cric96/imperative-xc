@@ -1,12 +1,24 @@
 package it.unibo.core
 
-trait Local // generic local data, internal representation for raw data to be sent
+/**
+ * generic local data, internal representation for raw data to be sent.
+ * This will be defined in the concrete VM (e.g., they could be Rust data structures)
+ */
+trait Local
 
-case class Slot(tag: Local, index: Int)
+/**
+ * a specific data, a tag used for marking the tree
+ * @param data the data to put in the evaluation tree 
+ */
+sealed case class Tag(data: String | Int | Double | Boolean | Local)
+case class Slot(tag: Tag, index: Int)
 
 case class Path(path: List[Slot] = List.empty):
   def push(slot: Slot): Path = Path(slot :: path)
   def pull(): Path = Path(path.tail)
+
+object Path:
+  def apply(slots: Slot*): Path = Path(slots.toList)
 
 class Export(private var map: Map[Path, Local] = Map.empty) extends Equals:
   def put(path: Path, value: Local): Local = { map += (path -> value); value }

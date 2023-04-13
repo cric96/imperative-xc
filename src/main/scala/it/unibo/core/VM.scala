@@ -4,12 +4,35 @@ import it.unibo.language.FieldCalculus
 
 class VM(val context: Context):
   var status = VMStatus(Path())
-  var exports = context.exports.map(_._1 -> Export())
+  var outExports =
+    Map.empty[Int, Export]
 
-  def enter(slot: Slot): Unit = ???
-  def send(data: Map[Int, Local]) = ???
-  def receive: Map[Int, Local] = ???
-  def exit(): Unit = ???
+  def enter(tag: Tag): Unit =
+    val index = status.index
+    val slot = Slot(tag, index)
+    status = status.push().nest(slot)
+
+  def send(data: Map[Int, Local]): Unit =
+    val toSend = data.map((id, local) => (id, local, outExports.getOrElse(id, Export())))
+    toSend.foreach { case (_, local, exportData) => exportData.put(status.path, local) }
+    outExports = outExports ++ toSend.map { case (id, _, exportData) => (id, exportData) }
+
+  /**
+   * Store a local value in the current path.
+   * It can be used for expressing evolution of the local state.
+   * @param local the data to store in the current path
+   */
+  def store(local: Local): Unit = send(Map(context.self -> local))
+
+  def received: Map[Int, Local] =
+    val path = status.path
+    context.exports.collect {
+      case (id, exportData) if exportData.paths.contains(path) => id -> exportData.get(path).get
+    }
+
+  def exit(): Unit =
+    status = status.pop().incrementIndex()
+
 class VMStatus(
     val path: Path = Path(), // current path in the evaluation tree
     val index: Int = 0, // current index in the evaluation tree
@@ -26,4 +49,5 @@ class VMStatus(
     case (p, i) :: s => VMStatus(p, i, s)
     case _ => throw new Exception()
 
-class Context(val exports: Seq[(Int, Export)], val self: Int)
+class Context(val exports: Map[Int, Export], val self: Int):
+  def neighbours: Set[Int] = exports.keySet
