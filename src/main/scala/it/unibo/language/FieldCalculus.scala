@@ -1,13 +1,13 @@
 package it.unibo.language
-import it.unibo.core.{Local, VM, Tag}
+import it.unibo.core.{Local, Tag, VM}
+
+import java.util.concurrent.ExecutorService
 
 // API -- Language specific
 object FieldCalculus:
   val repTag = Tag("rep")
   val nbrTag = Tag("nbr")
   def branchTag(condition: Boolean) = Tag("branch-" + condition)
-  type Writer = [A] =>> Conversion[A, Local]
-  type Reader = [A] =>> Conversion[Local, A]
 
   def branch[A](condition: => Boolean)(ifTrue: => A)(ifFalse: => A)(using vm: VM): A = {
     val evalCondition = condition

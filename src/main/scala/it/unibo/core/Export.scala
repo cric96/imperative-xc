@@ -5,7 +5,8 @@ package it.unibo.core
  * This will be defined in the concrete VM (e.g., they could be Rust data structures)
  */
 trait Local
-
+// No data, just a tag
+case object Empty extends Local
 /**
  * a specific data, a tag used for marking the tree
  * @param data the data to put in the evaluation tree 
@@ -20,7 +21,7 @@ case class Path(path: List[Slot] = List.empty):
 object Path:
   def apply(slots: Slot*): Path = Path(slots.toList)
 
-class Export(private var map: Map[Path, Local] = Map.empty) extends Equals:
+class Export(private var map: Map[Path, Local] = Map.empty):
   def put(path: Path, value: Local): Local = { map += (path -> value); value }
   def get(path: Path): Option[Local] = map.get(path)
   def root(): Local = get(Path()).get
@@ -30,8 +31,6 @@ class Export(private var map: Map[Path, Local] = Map.empty) extends Equals:
     case x: Export => x.paths == map
     case _ => false
   }
-
-  override def canEqual(that: Any): Boolean = that match { case _: Export => true; case _ => false }
 
   override def hashCode(): Int = map.hashCode()
 
