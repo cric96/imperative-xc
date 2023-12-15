@@ -7,7 +7,7 @@ import it.unibo.util.{*, given}
 import it.unibo.core.{Context, VM, Export}
 import it.unibo.{Network, Device}
 import it.unibo.Network._
-class FieldCalculusTest extends AnyFlatSpec with Matchers {
+class FieldCalculusTest extends AnyFlatSpec with Matchers:
   val emptyContext = Context(Map.empty, 0)
 
   def performOn[A](vm: VM)(computation: VM ?=> A): A =
@@ -62,4 +62,3 @@ class FieldCalculusTest extends AnyFlatSpec with Matchers {
     resultAfterCommunication(2) shouldBe Set(1, 2)
     resultAfterCommunication(3) shouldBe Set(3)
   }
-}

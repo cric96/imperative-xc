@@ -8,7 +8,7 @@ import org.scalatest.*
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-class ExchangeTest extends AnyFlatSpec with Matchers {
+class ExchangeTest extends AnyFlatSpec with Matchers:
   val emptyContext = Context(Map.empty, 0)
 
   def performOn[A](vm: VM)(computation: VM ?=> A): A =
@@ -72,4 +72,3 @@ class ExchangeTest extends AnyFlatSpec with Matchers {
     resultAfterCommunication(2) shouldBe Set(1, 2)
     resultAfterCommunication(3) shouldBe Set(3)
   }
-}

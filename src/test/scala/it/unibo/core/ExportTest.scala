@@ -5,7 +5,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import it.unibo.util.{*, given}
 import it.unibo.core.{Tag => TreeTag}
-class ExportTest extends AnyFlatSpec with Matchers {
+class ExportTest extends AnyFlatSpec with Matchers:
   val root = Path()
   val exchangePath = Path(Slot(TreeTag(0), 0) :: Nil)
   "An export" should "be empty" in {
@@ -25,4 +25,3 @@ class ExportTest extends AnyFlatSpec with Matchers {
     exportData.put(Path(), 10)
     exportData.root() shouldBe RawLocal(10)
   }
-}

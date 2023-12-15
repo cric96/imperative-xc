@@ -4,7 +4,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import it.unibo.util.{*, given}
 import it.unibo.core.{Tag => TreeTag}
-class VMTest extends AnyFlatSpec with Matchers {
+class VMTest extends AnyFlatSpec with Matchers:
   val emptyContext = Context(Map.empty, 0)
   "VMStatus" should "have an empty current path, index = 0" in {
     val status = VMStatus()
@@ -144,4 +144,3 @@ class VMTest extends AnyFlatSpec with Matchers {
     nextVm.exit()
     nextVm.received shouldBe Map.empty
   }
-}

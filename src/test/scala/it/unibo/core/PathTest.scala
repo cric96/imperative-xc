@@ -4,7 +4,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import it.unibo.util.{*, given}
 import it.unibo.core.{Tag => TreeTag}
-class PathTest extends AnyFlatSpec with Matchers {
+class PathTest extends AnyFlatSpec with Matchers:
   "A Path" should "be empty when created" in {
     val path = Path()
     path.path shouldBe List()
@@ -38,5 +38,3 @@ class PathTest extends AnyFlatSpec with Matchers {
     val newPath2 = newPath.pull()
     newPath2 shouldBe Path(firstSlot :: Nil)
   }
-
-}
