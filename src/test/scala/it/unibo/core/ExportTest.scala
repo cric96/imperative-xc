@@ -17,7 +17,7 @@ class ExportTest extends AnyFlatSpec with Matchers {
     val exportData = Export()
     exportData.put(Path(), 10)
     exportData.paths.size shouldBe 1
-    exportData.paths.head shouldBe (Path(), 10)
+    exportData.paths.head shouldBe (Path(), RawLocal(10))
   }
 
   it should "have as root the Path with empty slots" in {

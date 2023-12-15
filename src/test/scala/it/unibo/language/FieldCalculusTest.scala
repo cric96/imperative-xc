@@ -41,7 +41,6 @@ class FieldCalculusTest extends AnyFlatSpec with Matchers {
     resultAfterCommunication.forall(_ == Set(1, 2, 3)) shouldBe true
   }
 
-  // TODO improve, create a support to simple simulation
   "branch" should "create two not communicating zone" in {
     def emptyContext(me: Int, other: Set[Int]): Context =
       Context(other.map(_ -> Export()).toMap, me)
